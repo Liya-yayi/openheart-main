@@ -1,0 +1,15 @@
+{% extends "base_admin.html" %}
+{% block title %}Add Organizer | Admin{% endblock %}
+
+{% block content %}
+<h2 style="text-align:center;">Add Organizer</h2>
+
+<form method="POST" style="max-width:400px;margin:40px auto;">
+  {% csrf_token %}
+  <input name="name" placeholder="Name"><br><br>
+  <input name="email" placeholder="Email"><br><br>
+  <input name="phone" placeholder="Phone"><br><br>
+  <input type="password" name="password" placeholder="Password"><br><br>
+  <button>Add Organizer</button>
+</form>
+{% endblock %}

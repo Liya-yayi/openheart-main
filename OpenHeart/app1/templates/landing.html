@@ -1,0 +1,766 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Open Heart</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #770202, #8b0000);
+  min-height: 100vh;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* ================= HEADER ================= */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 3000;
+  background: rgba(119,2,2,0.5);
+  backdrop-filter: blur(12px);
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-box img { height: 42px; }
+
+.logo-box span {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.top-nav {
+  display: flex;
+  gap: 36px;
+}
+
+.top-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+  opacity: 0.9;
+  position: relative;
+}
+
+.top-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: white;
+  transition: 0.3s;
+}
+
+.top-nav a:hover::after { width: 100%; }
+
+/* ================= HAMBURGER ================= */
+.menu-btn {
+  width: 36px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  transition: transform 0.3s ease;
+}
+
+.menu-btn:hover { transform: scale(1.15); }
+
+.menu-btn span {
+  height: 3px;
+  width: 100%;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(255,255,255,0.6);
+  transition: 0.4s ease;
+  transform-origin: center;
+}
+
+/* ☰ → ❌ */
+.menu-btn.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+.menu-btn.active span:nth-child(2) {
+  opacity: 0;
+  transform: scale(0);
+}
+.menu-btn.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.menu-btn.active {
+  animation: pulse 1.4s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.2); }
+}
+
+/* ================= HERO ================= */
+.dashboard-container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cinema-stage {
+  position: absolute;
+  inset: 0;
+  perspective: 1000px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.light-sweep {
+  position: absolute;
+  width: 150%;
+  height: 220px;
+  background: linear-gradient(120deg,
+    transparent 30%,
+    rgba(255,255,255,0.18),
+    transparent 70%);
+  top: -40%;
+  left: -120%;
+  animation: sweep 10s linear infinite;
+}
+
+@keyframes sweep {
+  from { transform: translateX(0) rotate(10deg); }
+  to   { transform: translateX(230%) rotate(10deg); }
+}
+
+.pillars {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 55px;
+  transform-style: preserve-3d;
+  transform: rotateX(65deg);
+}
+
+.pillars span {
+  width: 120px;        /* was 80px */
+  height: 520px;       /* was 360px */
+  border-radius: 200px;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.95),
+    rgba(242, 236, 236, 0.03));
+  opacity: 0.22;       /* slightly stronger */
+  animation: spin 20s linear infinite;
+  box-shadow: 0 0 40px rgba(245, 234, 234, 0.35);
+}
+
+@keyframes spin {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+.dashboard-container > *:not(.cinema-stage) {
+  position: relative;
+  z-index: 5;
+}
+
+.project-title {
+  font-size: 70px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-align: center;
+  text-shadow: 0 0 30px rgba(255,255,255,0.45);
+  animation: fadeUp 1.6s ease both;
+}
+
+.project-text {
+  margin-top: 30px;
+  max-width: 950px;
+  font-size: 19px;
+  line-height: 2;
+  color: #ffecec;
+  text-align: center;
+  animation: fadeUp 1.6s ease both;
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(70px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= ABOUT ================= */
+.about-section {
+  min-height: 100vh;
+  padding: 120px 8%;
+}
+
+.about-section h2 {
+  font-size: 64px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 28px rgba(255,255,255,0.45);
+  animation: aboutGlow 3s ease-in-out infinite alternate;
+}
+
+
+.about-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-text p {
+  font-size: 24px;
+  line-height: 2.2;
+  animation: aboutFloat 4s ease-in-out infinite;
+  transition: 0.5s ease;
+}
+
+.about-text p:hover {
+  transform: scale(1.05);
+  color: #ffffff;
+  text-shadow: 0 0 30px rgba(255,255,255,0.7);
+}
+.about-features {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.feature-card {
+  font-size: 18px;
+  padding: 16px 28px;
+  animation: featurePulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes featurePulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
+}
+
+.feature-card:hover {
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 0 35px rgba(255,255,255,0.5);
+}
+
+/* gallery */
+.about-gallery {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.about-card {
+  width: 260px;
+  height: 340px;
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(255,255,255,0.35);
+  animation: float 6s ease-in-out infinite;
+}
+
+.about-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes aboutFloat {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes aboutGlow {
+  from { text-shadow: 0 0 15px rgba(255,255,255,0.3); }
+  to { text-shadow: 0 0 45px rgba(255,255,255,0.8); }
+}
+
+
+/* ================= CONTACT ================= */
+/* ================= CONTACT REDESIGN ================= */
+
+.contact-section {
+  min-height: 100vh;
+  padding: 120px 8%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #8b0000, #4d0000);
+}
+
+.contact-title {
+  font-size: 64px;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 35px rgba(255,255,255,0.6);
+  animation: aboutGlow 3s ease-in-out infinite alternate;
+}
+
+.contact-subtitle {
+  font-size: 20px;
+  margin-bottom: 60px;
+  opacity: 0.9;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.contact-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.contact-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  padding: 50px;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 0 60px rgba(255,255,255,0.25);
+  animation: fadeUp 1.4s ease both;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 26px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: white;
+  background: rgba(255,255,255,0.12);
+  box-shadow: 0 0 25px rgba(255,255,255,0.25);
+  transition: 0.4s ease;
+}
+
+.contact-item i {
+  font-size: 30px;
+  width: 40px;
+  text-align: center;
+}
+
+.contact-item h4 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.contact-item span {
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+.contact-item:hover {
+  transform: translateY(-8px) scale(1.05);
+  background: white;
+  color: #770202;
+  box-shadow: 0 0 45px rgba(255,255,255,0.8);
+}
+
+/* WhatsApp glow */
+.contact-item.whatsapp:hover {
+  background: #25D366;
+  color: white;
+}
+
+/* non clickable */
+.contact-item.location {
+  cursor: default;
+  opacity: 0.9;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .contact-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ================= OFFCANVAS ================= */
+/* ================= OFFCANVAS REDESIGN ================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(0,0,0,0.6), rgba(0,0,0,0.85));
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s ease;
+  z-index: 3000;
+  backdrop-filter: blur(4px);
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.offcanvas {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: 380px;
+  height: 100%;
+  padding: 50px 34px;
+  z-index: 4000;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  /* 👇 GLASS EFFECT */
+  background: rgba(119, 2, 2, 0.25);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border-left: 1px solid rgba(255,255,255,0.25);
+  box-shadow: -30px 0 80px rgba(0,0,0,0.6);
+
+  transition: 0.8s cubic-bezier(.16,1,.3,1);
+  opacity: 0;
+}
+
+.offcanvas.active {
+  right: 0;
+  opacity: 1;
+}
+
+.offcanvas.active {
+  right: 0;
+  opacity: 1;
+}
+
+/* header */
+.offcanvas-header h2 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: 4px;
+  text-shadow: 0 0 25px rgba(255,255,255,0.6);
+}
+
+.offcanvas-header p {
+  margin-top: 6px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  opacity: 0.75;
+}
+
+/* nav */
+.offcanvas-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  margin-top: 60px;
+}
+
+.offcanvas-nav a {
+  position: relative;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: white;
+  opacity: 0;
+  transform: translateX(60px);
+  transition: 0.5s ease;
+}
+
+/* slide in sequence */
+.offcanvas.active .offcanvas-nav a:nth-child(1){transition-delay:.25s;}
+.offcanvas.active .offcanvas-nav a:nth-child(2){transition-delay:.35s;}
+.offcanvas.active .offcanvas-nav a:nth-child(3){transition-delay:.45s;}
+.offcanvas.active .offcanvas-nav a:nth-child(4){transition-delay:.55s;}
+
+.offcanvas.active .offcanvas-nav a {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* glowing hover underline */
+.offcanvas-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: white;
+  box-shadow: 0 0 12px white;
+  transition: 0.4s ease;
+}
+
+.offcanvas-nav a:hover::after {
+  width: 100%;
+}
+
+.offcanvas-nav a:hover {
+  letter-spacing: 4px;
+  text-shadow: 0 0 18px rgba(255,255,255,0.9);
+}
+
+/* footer */
+.offcanvas-footer {
+  font-size: 13px;
+  letter-spacing: 2px;
+  opacity: 0.6;
+  text-align: center;
+}
+
+
+/* ===== HERO TEXT UPGRADE ===== */
+
+.hero-tagline {
+  margin-top: 18px;
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-align: center;
+  color: #ffdede;
+  text-shadow: 0 0 25px rgba(255,255,255,0.45);
+  animation: floatText 4s ease-in-out infinite;
+  transition: 0.4s ease;
+  cursor: default;
+}
+
+/* auto animation */
+@keyframes floatText {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+
+/* hover animation */
+.hero-tagline:hover {
+  transform: scale(1.12);
+  letter-spacing: 5px;
+  color: #ffffff;
+  text-shadow: 0 0 45px rgba(255,255,255,0.9);
+}
+
+/* description big animated paragraph */
+
+.hero-description {
+  margin-top: 28px;
+  font-size: 22px;
+  max-width: 1050px;
+  line-height: 2.1;
+  letter-spacing: 1px;
+  animation: fadeGlow 3s ease-in-out infinite alternate;
+  transition: 0.5s ease;
+}
+
+@keyframes fadeGlow {
+  from {
+    opacity: 0.85;
+    text-shadow: 0 0 12px rgba(255,255,255,0.25);
+  }
+  to {
+    opacity: 1;
+    text-shadow: 0 0 28px rgba(255,255,255,0.6);
+  }
+}
+
+/* hover effect for paragraph */
+.hero-description:hover {
+  transform: scale(1.05);
+  color: #ffffff;
+  text-shadow: 0 0 35px rgba(255,255,255,0.85);
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo-box">
+    <img src="{% static 'images/logo.png.jpeg' %}">
+    <span>OpenHeart</span>
+  </div>
+
+  <div class="top-nav">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <div class="menu-btn" id="menuBtn" onclick="openMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="dashboard-container" id="home">
+  <div class="cinema-stage">
+    <div class="light-sweep"></div>
+    <div class="pillars"><span></span><span></span><span></span><span></span></div>
+  </div>
+<div class="project-title">Open Heart</div>
+
+<div class="hero-tagline">
+  Where stories ignite minds, and voices shape tomorrow.
+</div>
+
+<div class="project-text hero-description">
+  Open Heart is more than a speaker series — it is a movement built to connect young minds with powerful experiences. A space where leaders, creators, and change-makers from every walk of life come together to share stories that challenge perspectives, spark conversations, and inspire courage.
+</div>
+
+
+</div>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <h2>About Us</h2>
+
+  <div class="about-wrapper">
+    <div class="about-text">
+      <p>
+        Open Heart connects youth with inspiring voices and unforgettable stories.
+        We are dedicated to empowering the next generation through real experiences,
+        motivation, and community.
+      </p>
+
+      <div class="about-features">
+        <div class="feature-card"> Inspiring Speakers</div>
+        <div class="feature-card"> Real Stories</div>
+        <div class="feature-card"> Youth Empowerment</div>
+      </div>
+    </div>
+
+    <div class="about-gallery">
+      <div class="about-card"><img src="{% static 'images/image1.jpeg' %}"></div>
+      <div class="about-card"><img src="{% static 'images/image2.jpeg' %}"></div>
+      <div class="about-card"><img src="{% static 'images/image3.jpeg' %}"></div>
+      <div class="about-card"><img src="{% static 'images/image4.jpeg' %}"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <h2 class="contact-title">Get in Touch</h2>
+  <p class="contact-subtitle">We’d love to hear from you. Reach us anytime.</p>
+
+  <div class="contact-wrapper">
+
+    <div class="contact-card">
+
+      <a href="mailto:openheart@gmail.com" class="contact-item">
+        <i class="fa-solid fa-envelope"></i>
+        <div>
+          <h4>Email</h4>
+          <span>openheart@gmail.com</span>
+        </div>
+      </a>
+
+      <a href="tel:+919876543210" class="contact-item">
+        <i class="fa-solid fa-phone"></i>
+        <div>
+          <h4>Phone</h4>
+          <span>+91 98765 43210</span>
+        </div>
+      </a>
+
+      <a href="https://wa.me/919876543210" target="_blank" class="contact-item whatsapp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <div>
+          <h4>WhatsApp</h4>
+          <span>Start a conversation</span>
+        </div>
+      </a>
+
+      <div class="contact-item location">
+        <i class="fa-solid fa-location-dot"></i>
+        <div>
+          <h4>Location</h4>
+          <span>Bengaluru, India</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="offcanvas" id="offcanvas">
+
+  <div class="offcanvas-header">
+    <h2>OPEN HEART</h2>
+    <p>Menu</p>
+  </div>
+
+<nav class="offcanvas-nav">
+  <a href="{% url 'admin_login' %}">Admin</a>
+  <a href="{% url 'organizer_register' %}">Organizer</a>
+  <a href="{% url 'user_login' %}">Users</a>
+  
+</nav>
+
+  <div class="offcanvas-footer">
+    <span>© 2026 Open Heart</span>
+  </div>
+
+</div>
+
+<script>
+function openMenu() {
+  document.getElementById("offcanvas").classList.add("active");
+  document.getElementById("overlay").classList.add("active");
+  document.getElementById("menuBtn").classList.add("active");
+}
+
+function closeMenu() {
+  document.getElementById("offcanvas").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
+  document.getElementById("menuBtn").classList.remove("active");
+}
+</script>
+
+</body>
+</html>

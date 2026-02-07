@@ -1,0 +1,165 @@
+{% extends "base_organizer.html" %}
+{% load static %}
+
+{% block title %}Cancellation Requests | Organizer{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* wrapper */
+.cancel-wrapper {
+  max-width: 1200px;
+  margin: 30px auto 90px;
+  padding: 20px;
+}
+
+/* title */
+.cancel-title {
+  text-align: center;
+  font-size: 40px;
+  letter-spacing: 3px;
+  margin-bottom: 40px;
+  color: #ffdede;
+  text-shadow: 0 0 25px rgba(255,255,255,0.5);
+}
+
+/* grid */
+.cancel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 26px;
+}
+
+/* card */
+.cancel-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: 0 0 30px rgba(255,255,255,0.25);
+  transition: 0.4s ease;
+}
+
+.cancel-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 0 50px rgba(255,255,255,0.45);
+}
+
+.cancel-card p {
+  margin: 8px 0;
+  font-size: 15px;
+  letter-spacing: 1px;
+  opacity: 0.95;
+}
+
+.cancel-card strong {
+  color: #ffdede;
+}
+
+/* buttons */
+.cancel-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.cancel-actions a {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  border-radius: 16px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+}
+
+/* approve */
+.approve-btn {
+  background: #00e676;
+  color: #003b1f;
+}
+
+.approve-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 20px #00e676;
+}
+
+/* reject */
+.reject-btn {
+  background: transparent;
+  border: 2px solid #ff5252;
+  color: #ffbaba;
+}
+
+.reject-btn:hover {
+  background: #ff5252;
+  color: white;
+  transform: scale(1.08);
+  box-shadow: 0 0 20px #ff5252;
+}
+
+/* empty */
+.empty-box {
+  background: rgba(255,255,255,0.12);
+  padding: 50px;
+  border-radius: 26px;
+  text-align: center;
+  box-shadow: 0 0 35px rgba(255,255,255,0.3);
+  font-size: 20px;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+/* animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cancel-card {
+  animation: fadeUp 0.8s ease both;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="cancel-wrapper">
+
+  <div class="cancel-title">Cancellation Requests</div>
+
+  {% if requests %}
+  <div class="cancel-grid">
+
+    {% for req in requests %}
+    <div class="cancel-card">
+
+      <p><strong>User:</strong> {{ req.user.name }}</p>
+      <p><strong>Event:</strong> {{ req.event.title }}</p>
+
+      <div class="cancel-actions">
+        <a href="{% url 'approve_cancel' req.id %}" class="approve-btn">
+          Approve
+        </a>
+
+        <a href="{% url 'reject_cancel' req.id %}" class="reject-btn">
+          Reject
+        </a>
+      </div>
+
+    </div>
+    {% endfor %}
+
+  </div>
+  {% else %}
+    <div class="empty-box">
+      No cancellation requests.
+    </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

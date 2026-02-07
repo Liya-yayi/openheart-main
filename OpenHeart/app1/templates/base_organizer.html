@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{% block title %}Organizer | OpenHeart{% endblock %}</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background: radial-gradient(circle at top, #770202, #8b0000);
+  min-height:100vh;
+  color:white;
+}
+
+/* ===== ORGANIZER NAVBAR ===== */
+.org-navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:75px;
+  padding:0 40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background: rgba(119,2,2,0.5);
+  backdrop-filter: blur(14px);
+  z-index:3000;
+  box-shadow:0 10px 35px rgba(0,0,0,0.4);
+}
+
+.org-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.org-left img{height:40px;}
+
+.org-left span{
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.org-links{
+  display:flex;
+  align-items:center;
+  gap:28px;
+}
+
+.org-links a{
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  letter-spacing:2px;
+  position:relative;
+  opacity:.9;
+}
+
+.org-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0%;
+  height:2px;
+  background:white;
+  transition:.3s;
+}
+
+.org-links a:hover::after{width:100%;}
+
+.org-links .logout{
+  padding:8px 16px;
+  border:1px solid rgba(255,255,255,.5);
+  border-radius:18px;
+}
+
+.org-links .logout::after{display:none;}
+
+.org-links .logout:hover{
+  background:white;
+  color:#770202;
+  box-shadow:0 0 20px white;
+}
+
+/* space for navbar */
+.org-content{
+  padding-top:95px;
+}
+
+</style>
+
+{% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<!-- ===== ORGANIZER NAVBAR ===== -->
+<div class="org-navbar">
+  <div class="org-left">
+    <img src="{% static 'images/logo.png.jpeg' %}">
+    <span>OpenHeart Organizer</span>
+  </div>
+
+  <div class="org-links">
+    <a href="{% url 'organizer_dashboard' %}">Dashboard</a>
+    <a href="{% url 'add_event' %}">Add Event</a>
+    <a href="{% url 'view_events' %}">Events</a>
+    <a href="{% url 'cancel_requests' %}">Requests</a>
+    <a href="{% url 'organizer_logout' %}" class="logout">Logout</a>
+  </div>
+</div>
+
+<div class="org-content">
+  {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

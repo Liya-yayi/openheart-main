@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Image</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background-color: #c62828;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        /* Container */
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-left: 6px solid #c62828;
+        }
+
+        h2 {
+            color: #c62828;
+            margin-top: 0;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        /* Form */
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 15px 0 8px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+        }
+
+        /* Buttons */
+        .actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #c62828;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #b71c1c;
+        }
+
+        .btn-outline {
+            border: 2px solid #c62828;
+            color: #c62828;
+            background: white;
+        }
+
+        .btn-outline:hover {
+            background-color: #c62828;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>Edit Image</h2>
+</div>
+
+<div class="container">
+    <div class="card">
+
+        <!-- Current Image -->
+        <img src="{{ image.image.url }}" alt="Current Image">
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label>Select New Image</label>
+            <input type="file" name="image" accept="image/*" required>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">
+                    💾 Update Image
+                </button>
+
+                <a href="{% url 'view_media' %}" class="btn btn-outline">
+                    ← Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

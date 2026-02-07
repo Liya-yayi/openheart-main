@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Media | Open Heart</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #770202, #8b0000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* card */
+.media-card {
+  width: 420px;
+  padding: 35px 30px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 0 40px rgba(255,255,255,0.3);
+  text-align: center;
+  animation: fadeUp 0.8s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.media-card h2 {
+  margin-bottom: 25px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 20px rgba(255,255,255,0.6);
+}
+
+/* upload box */
+.upload-box {
+  margin-bottom: 22px;
+  padding: 18px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.12);
+  border: 1px dashed rgba(255,255,255,0.4);
+  transition: 0.4s ease;
+}
+
+.upload-box:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 20px rgba(255,255,255,0.4);
+}
+
+.upload-box label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+input[type="file"] {
+  width: 100%;
+  color: white;
+  font-size: 13px;
+}
+
+/* button */
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 20px;
+  border: none;
+  background: white;
+  color: #770202;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: 0.4s ease;
+}
+
+button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 30px white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="media-card">
+  <h2>ADD MEDIA</h2>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="upload-box">
+      <label>🖼 Upload Image</label>
+      <input type="file" name="image" accept="image/*">
+    </div>
+
+    <div class="upload-box">
+      <label>🎥 Upload Video</label>
+      <input type="file" name="video" accept="video/*">
+    </div>
+
+    <button type="submit">UPLOAD</button>
+  </form>
+</div>
+
+</body>
+</html>

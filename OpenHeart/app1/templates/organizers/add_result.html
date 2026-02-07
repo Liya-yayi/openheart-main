@@ -1,0 +1,115 @@
+{% extends "base_organizer.html" %}
+{% load static %}
+
+{% block title %}Add Result | Organizer{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* wrapper */
+.result-wrapper {
+  max-width: 460px;
+  margin: 40px auto 90px;
+  padding: 20px;
+}
+
+/* glass card */
+.result-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+  border-radius: 26px;
+  padding: 36px 28px;
+  box-shadow: 0 0 40px rgba(255,255,255,0.3);
+  animation: fadeUp 0.9s ease both;
+}
+
+/* title */
+.result-card h2 {
+  margin: 0 0 6px;
+  text-align: center;
+  font-size: 30px;
+  letter-spacing: 3px;
+  color: #ffdede;
+  text-shadow: 0 0 20px rgba(255,255,255,0.4);
+}
+
+.result-card h4 {
+  text-align: center;
+  margin-bottom: 26px;
+  font-weight: 400;
+  opacity: 0.9;
+  letter-spacing: 1px;
+}
+
+/* inputs */
+.result-card input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  margin-bottom: 16px;
+  font-size: 14px;
+  background: rgba(255,255,255,0.9);
+  transition: 0.3s ease;
+}
+
+.result-card input:focus {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px white;
+}
+
+/* button */
+.result-card button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 18px;
+  border: none;
+  background: white;
+  color: #770202;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.result-card button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 30px white;
+}
+
+/* animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="result-wrapper">
+
+  <div class="result-card">
+
+    <h2>Add Result</h2>
+    <h4>{{ event.title }}</h4>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <input type="text" name="first_place" placeholder="🥇 First Place Winner" required>
+      <input type="text" name="second_place" placeholder="🥈 Second Place Winner">
+      <input type="text" name="third_place" placeholder="🥉 Third Place Winner">
+
+      <button type="submit">Publish Result</button>
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

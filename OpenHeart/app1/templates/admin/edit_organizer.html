@@ -1,0 +1,125 @@
+{% extends "base_admin.html" %}
+{% block title %}Edit Organizer | Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+.edit-org-wrapper {
+  max-width: 520px;
+  margin: 50px auto 100px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+  padding: 34px 30px;
+  border-radius: 26px;
+  box-shadow: 0 0 40px rgba(255,255,255,0.25);
+}
+
+.edit-org-wrapper h2 {
+  text-align: center;
+  margin-bottom: 26px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 18px rgba(255,255,255,0.5);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  box-shadow: 0 0 16px rgba(255,255,255,0.9);
+}
+
+/* actions */
+.edit-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.edit-actions button,
+.edit-actions a {
+  flex: 1;
+  padding: 12px;
+  border-radius: 16px;
+  border: none;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s ease;
+  text-align: center;
+}
+
+.save-btn {
+  background: white;
+  color: #770202;
+}
+
+.cancel-btn {
+  border: 2px solid white;
+  color: white;
+  background: transparent;
+}
+
+.edit-actions button:hover,
+.edit-actions a:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 28px rgba(255,255,255,0.8);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="edit-org-wrapper">
+
+  <h2>👤 Edit Organizer</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" name="name" value="{{ organizer.name }}" required>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" name="email" value="{{ organizer.email }}" required>
+    </div>
+
+    <div class="form-group">
+      <label>Phone</label>
+      <input type="text" name="phone" value="{{ organizer.phone }}" required>
+    </div>
+
+    <div class="form-group">
+      <label>New Password (optional)</label>
+      <input type="password" name="password" placeholder="Enter new password">
+    </div>
+
+    <div class="edit-actions">
+      <button type="submit" class="save-btn">UPDATE</button>
+      <a href="{% url 'manage_organizers' %}" class="cancel-btn">CANCEL</a>
+    </div>
+
+  </form>
+
+</div>
+
+{% endblock %}

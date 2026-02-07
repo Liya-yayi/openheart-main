@@ -1,0 +1,219 @@
+{% extends "base_admin.html" %}
+{% block title %}Manage Users | Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* ================= WRAPPER ================= */
+
+.users-wrapper {
+  max-width: 1100px;
+  margin: 40px auto 100px;
+  padding: 20px;
+}
+
+/* ================= TOP BAR ================= */
+
+.users-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.users-title {
+  font-size: 38px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 22px rgba(255,255,255,0.6);
+}
+
+.add-btn {
+  padding: 10px 22px;
+  border-radius: 22px;
+  background: white;
+  color: #770202;
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+}
+
+.add-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px white;
+}
+
+/* ================= GRID ================= */
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, max-content));
+  gap: 24px;
+  justify-content: center;
+}
+
+/* ================= CARD ================= */
+
+.user-card {
+  width: 240px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05));
+  backdrop-filter: blur(16px);
+  border-radius: 26px;
+  padding: 22px 18px;
+  box-shadow: 
+    0 14px 35px rgba(0,0,0,0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.12);
+  transition: 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.user-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 
+    0 22px 55px rgba(0,0,0,0.5),
+    0 0 40px rgba(255,255,255,0.25);
+}
+
+/* ================= AVATAR ================= */
+
+.user-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffb3b3, #ff5252);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 800;
+  color: #600000;
+  margin-bottom: 12px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.45);
+}
+
+/* ================= TEXT ================= */
+
+.user-name {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.user-email {
+  font-size: 13px;
+  opacity: 0.85;
+  margin: 4px 0;
+  word-break: break-all;
+}
+
+.user-phone {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-bottom: 14px;
+}
+
+/* ================= ACTIONS ================= */
+
+.user-actions {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.user-actions a {
+  flex: 1;
+  text-align: center;
+  padding: 8px 10px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+}
+
+.edit-btn {
+  background: #2196f3;
+  color: white;
+}
+
+.delete-btn {
+  background: #ff5252;
+  color: white;
+}
+
+.user-actions a:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 16px rgba(255,255,255,0.7);
+}
+
+/* ================= EMPTY ================= */
+
+.empty-box {
+  background: rgba(255,255,255,0.12);
+  padding: 40px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 0 28px rgba(255,255,255,0.3);
+  font-size: 18px;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 600px) {
+  .users-top {
+    flex-direction: column;
+    gap: 18px;
+  }
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="users-wrapper">
+
+  <div class="users-top">
+    <div class="users-title">👤 Users</div>
+    <a href="{% url 'add_user' %}" class="add-btn">＋ Add User</a>
+  </div>
+
+  {% if users %}
+  <div class="users-grid">
+
+    {% for u in users %}
+    <div class="user-card">
+
+      <div class="user-avatar">
+        {{ u.name|slice:":1"|upper }}
+      </div>
+
+      <div class="user-name">{{ u.name }}</div>
+      <div class="user-email">{{ u.email }}</div>
+      <div class="user-phone">📞 {{ u.phone }}</div>
+
+      <div class="user-actions">
+        <a href="{% url 'edit_user' u.id %}" class="edit-btn">Edit</a>
+        <a href="{% url 'delete_user' u.id %}"
+           class="delete-btn"
+           onclick="return confirm('Delete this user?')">
+           Delete
+        </a>
+      </div>
+
+    </div>
+    {% endfor %}
+
+  </div>
+  {% else %}
+    <div class="empty-box">No users found.</div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

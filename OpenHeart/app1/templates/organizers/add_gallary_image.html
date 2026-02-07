@@ -1,0 +1,201 @@
+{% extends "base_organizer.html" %}
+{% load static %}
+
+{% block title %}Gallery | Organizer{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* wrapper */
+.gallery-wrapper {
+  max-width: 900px;
+  margin: 30px auto 80px;
+  padding: 20px;
+}
+
+/* glass card */
+.form-card {
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(18px);
+  border-radius: 26px;
+  padding: 30px 26px;
+  box-shadow: 0 0 45px rgba(255,255,255,0.3);
+}
+
+/* title */
+.form-card h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 36px;
+  letter-spacing: 3px;
+  color: #ffdede;
+  text-shadow: 0 0 20px rgba(255,255,255,0.45);
+}
+
+/* labels */
+.form-card label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+/* inputs */
+.form-card input[type="text"],
+.form-card input[type="file"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.form-card input:focus {
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+}
+
+/* upload button */
+.form-card button {
+  width: 100%;
+  padding: 15px;
+  background: white;
+  color: #770202;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+  margin-top: 10px;
+}
+
+.form-card button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px white;
+}
+
+/* gallery grid */
+.gallery-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+/* image card */
+.gallery-card {
+  background: rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 14px;
+  box-shadow: 0 0 25px rgba(255,255,255,0.25);
+  text-align: center;
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 10px;
+}
+
+.gallery-card strong {
+  display: block;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+/* action buttons */
+.gallery-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.gallery-actions a button {
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.edit-btn {
+  background: white;
+  color: #770202;
+}
+
+.delete-btn {
+  background: #b30000;
+  color: white;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255,255,255,0.6);
+}
+
+/* responsive */
+@media (max-width: 600px) {
+  .form-card h2 {
+    font-size: 26px;
+  }
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="gallery-wrapper">
+
+  <!-- Upload Form -->
+  <div class="form-card">
+    <h2>Upload Gallery Image</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <label>Title</label>
+      <input type="text" name="title" placeholder="Image title">
+
+      <label>Select Image</label>
+      <input type="file" name="image" required>
+
+      <button type="submit">Upload Image</button>
+    </form>
+  </div>
+
+  <!-- Gallery -->
+  <div class="gallery-grid">
+    {% for img in images %}
+      <div class="gallery-card">
+        <img src="{{ img.image.url }}" alt="{{ img.title }}">
+        <strong>{{ img.title }}</strong>
+
+        <div class="gallery-actions">
+          <a href="{% url 'edit_gallery_image' img.id %}">
+            <button class="edit-btn">Edit</button>
+          </a>
+
+          <a href="{% url 'delete_gallery_image' img.id %}"
+             onclick="return confirm('Are you sure you want to delete this image?');">
+            <button class="delete-btn">Delete</button>
+          </a>
+        </div>
+      </div>
+    {% empty %}
+      <p style="opacity:0.7;">No images uploaded yet.</p>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Organizer Registration</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #770202, #2b0000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.register-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 36px 30px;
+  border-radius: 26px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 0 45px rgba(255,255,255,0.3);
+}
+
+.register-container h2 {
+  text-align: center;
+  margin-bottom: 28px;
+  font-size: 30px;
+  letter-spacing: 2px;
+  color: #ffdede;
+  text-shadow: 0 0 18px rgba(255,255,255,0.4);
+}
+
+.register-container input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.register-container input:focus {
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+}
+
+.register-container button {
+  width: 100%;
+  padding: 14px;
+  background: white;
+  color: #770202;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.login-text {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.login-text a {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="register-container">
+
+  <h2>Organizer Registration</h2>
+
+  <form method="POST" id="organizerRegisterForm">
+    {% csrf_token %}
+
+    <input type="text" name="name" placeholder="Name">
+    <input type="email" name="email" placeholder="Email">
+    <input type="password" name="password" placeholder="Password">
+    <input type="text" name="phone" placeholder="Phone">
+
+    <button type="submit">Create Account</button>
+  </form>
+
+  <p class="login-text">
+    Already registered?
+    <a href="{% url 'organizer_login' %}">Login</a>
+  </p>
+
+</div>
+
+<!-- ✅ JavaScript Validation -->
+<script>
+document.getElementById("organizerRegisterForm").addEventListener("submit", function(e) {
+
+  const name = document.querySelector("input[name='name']").value.trim();
+  const email = document.querySelector("input[name='email']").value.trim();
+  const password = document.querySelector("input[name='password']").value;
+  const phone = document.querySelector("input[name='phone']").value.trim();
+
+  // Name validation
+  if (name.length < 3) {
+    alert("Name must be at least 3 characters long");
+    e.preventDefault();
+    return;
+  }
+
+  // Email validation
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    alert("Please enter a valid email address");
+    e.preventDefault();
+    return;
+  }
+
+  // Password validation (min 6 chars)
+  if (password.length < 6) {
+    alert("Password must be at least 6 characters long");
+    e.preventDefault();
+    return;
+  }
+
+  // Phone validation (10 digits)
+  const phonePattern = /^[0-9]{10}$/;
+  if (!phonePattern.test(phone)) {
+    alert("Phone number must be exactly 10 digits");
+    e.preventDefault();
+    return;
+  }
+
+});
+</script>
+
+</body>
+</html>

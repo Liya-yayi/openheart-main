@@ -1,0 +1,123 @@
+{% extends "base_organizer.html" %}
+{% load static %}
+
+{% block title %}Edit Event Image | Organizer{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* wrapper */
+.edit-image-wrapper {
+  max-width: 460px;
+  margin: 40px auto 90px;
+  padding: 20px;
+}
+
+/* glass card */
+.image-edit-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+  border-radius: 26px;
+  padding: 34px 26px;
+  box-shadow: 0 0 40px rgba(255,255,255,0.3);
+  text-align: center;
+  animation: fadeUp 0.9s ease both;
+}
+
+/* title */
+.image-edit-card h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 30px;
+  letter-spacing: 3px;
+  color: #ffdede;
+  text-shadow: 0 0 20px rgba(255,255,255,0.4);
+}
+
+/* preview image */
+.image-edit-card img {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 22px;
+  box-shadow: 0 0 25px rgba(255,255,255,0.35);
+}
+
+/* file input */
+.image-edit-card input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.image-edit-card input[type="file"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+}
+
+/* button */
+.image-edit-card button {
+  width: 100%;
+  margin-top: 26px;
+  padding: 14px;
+  background: white;
+  color: #770202;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+}
+
+.image-edit-card button:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 30px white;
+}
+
+/* animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* responsive */
+@media (max-width: 520px) {
+  .image-edit-card {
+    padding: 26px 20px;
+  }
+  .image-edit-card h2 {
+    font-size: 24px;
+  }
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="edit-image-wrapper">
+
+  <div class="image-edit-card">
+
+    <h2>Edit Event Image</h2>
+
+    <img src="{{ image.image.url }}" alt="Event Image">
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="image" required>
+      <button type="submit">Update Image</button>
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

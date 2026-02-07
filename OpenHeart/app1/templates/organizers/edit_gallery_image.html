@@ -1,0 +1,151 @@
+{% extends "base_organizer.html" %}
+{% load static %}
+
+{% block title %}Edit Gallery Image | Organizer{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* wrapper */
+.edit-gallery-wrapper {
+  max-width: 620px;
+  margin: 30px auto 80px;
+  padding: 20px;
+}
+
+/* glass card */
+.form-card {
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(18px);
+  border-radius: 26px;
+  padding: 30px 26px;
+  box-shadow: 0 0 45px rgba(255,255,255,0.3);
+}
+
+/* title */
+.form-card h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 36px;
+  letter-spacing: 3px;
+  color: #ffdede;
+  text-shadow: 0 0 20px rgba(255,255,255,0.45);
+}
+
+/* labels */
+.form-card label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+/* inputs */
+.form-card input[type="text"],
+.form-card input[type="file"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.form-card input:focus {
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+}
+
+/* preview image */
+.image-preview {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 0 25px rgba(255,255,255,0.35);
+}
+
+/* buttons */
+.form-card button {
+  width: 100%;
+  padding: 15px;
+  background: white;
+  color: #770202;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+  margin-top: 10px;
+}
+
+.form-card button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px white;
+}
+
+/* back link */
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+.back-link a {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.back-link a:hover {
+  text-decoration: underline;
+}
+
+/* responsive */
+@media (max-width: 600px) {
+  .form-card h2 {
+    font-size: 26px;
+  }
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="edit-gallery-wrapper">
+
+  <div class="form-card">
+
+    <h2>Edit Gallery Image</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <label>Title</label>
+      <input type="text" name="title" value="{{ image.title }}">
+
+      <label>Current Image</label>
+      <img src="{{ image.image.url }}" alt="Gallery Image" class="image-preview">
+
+      <label>Change Image</label>
+      <input type="file" name="image">
+
+      <button type="submit">Update Image</button>
+    </form>
+
+    <div class="back-link">
+      <a href="{% url 'add_gallery_image' %}">← Back to Gallery</a>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

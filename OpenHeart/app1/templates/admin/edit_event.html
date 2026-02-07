@@ -1,0 +1,142 @@
+{% extends "base_admin.html" %}
+{% block title %}Edit Event | Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+.edit-event-wrapper {
+  max-width: 680px;
+  margin: 40px auto 90px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+  padding: 35px 32px;
+  border-radius: 26px;
+  box-shadow: 0 0 40px rgba(255,255,255,0.25);
+}
+
+.edit-event-wrapper h2 {
+  text-align: center;
+  margin-bottom: 28px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 18px rgba(255,255,255,0.4);
+}
+
+.edit-event-wrapper label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.edit-event-wrapper input,
+.edit-event-wrapper textarea,
+.edit-event-wrapper select {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.edit-event-wrapper textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.edit-event-wrapper input:focus,
+.edit-event-wrapper textarea:focus,
+.edit-event-wrapper select:focus {
+  box-shadow: 0 0 14px white;
+}
+
+.checkbox-row {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.checkbox-row input {
+  width: auto;
+  transform: scale(1.2);
+}
+
+.edit-event-wrapper button {
+  width: 100%;
+  margin-top: 28px;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: white;
+  color: #770202;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.edit-event-wrapper button:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 30px white;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="edit-event-wrapper">
+  <h2>✏️ Edit Event</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <label>Organizer</label>
+    <select name="organizer" required>
+      {% for org in organizers %}
+        <option value="{{ org.id }}" {% if org.id == event.organizer.id %}selected{% endif %}>
+          {{ org.name }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <label>Title</label>
+    <input type="text" name="title" value="{{ event.title }}" required>
+
+    <label>Description</label>
+    <textarea name="description" required>{{ event.description }}</textarea>
+
+    <label>Category</label>
+    <select name="category" required>
+      <option value="arts" {% if event.category == 'arts' %}selected{% endif %}>Arts</option>
+      <option value="sports" {% if event.category == 'sports' %}selected{% endif %}>Sports</option>
+    </select>
+
+    <label>Event Type</label>
+    <select name="event_type" required>
+      <option value="single" {% if event.event_type == 'single' %}selected{% endif %}>Single</option>
+      <option value="group" {% if event.event_type == 'group' %}selected{% endif %}>Group</option>
+    </select>
+
+    <label>Max Participants</label>
+    <input type="number" name="max_participants"
+           value="{{ event.max_participants|default_if_none:'' }}">
+
+    <label>Event Date</label>
+    <input type="date" name="event_date"
+           value="{{ event.event_date|date:'Y-m-d' }}" required>
+
+    <label>Venue</label>
+    <input type="text" name="venue" value="{{ event.venue }}" required>
+
+    <div class="checkbox-row">
+      <input type="checkbox" name="result_published" {% if event.result_published %}checked{% endif %}>
+      <span>Result Published</span>
+    </div>
+
+    <button type="submit">UPDATE EVENT</button>
+  </form>
+</div>
+
+{% endblock %}

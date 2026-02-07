@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Manage Gallery</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+  margin:0;
+  font-family:Poppins, sans-serif;
+  background:#5b0000;
+  color:white;
+}
+.container {
+  max-width:1200px;
+  margin:40px auto;
+  padding:20px;
+}
+h1 {text-align:center;}
+
+.upload-box {
+  background:rgba(255,255,255,0.12);
+  padding:20px;
+  border-radius:20px;
+  margin-bottom:40px;
+  display:flex;
+  gap:10px;
+}
+
+.upload-box input, .upload-box button {
+  padding:10px;
+  border:none;
+  border-radius:10px;
+}
+
+.gallery-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:25px;
+}
+
+.card {
+  background:rgba(255,255,255,0.12);
+  border-radius:20px;
+  padding:12px;
+  text-align:center;
+}
+
+.card img, .card video {
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:14px;
+}
+
+.actions {
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.actions a {
+  text-decoration:none;
+  color:white;
+  background:#8b0000;
+  padding:6px 14px;
+  border-radius:10px;
+  font-size:13px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Manage Gallery</h1>
+
+<!-- Upload Image -->
+<form method="POST" enctype="multipart/form-data" class="upload-box">
+  {% csrf_token %}
+  <input type="text" name="title" placeholder="Image title">
+  <input type="file" name="image" accept="image/*">
+  <button type="submit">Upload Image</button>
+</form>
+
+<!-- Upload Video -->
+<form method="POST" enctype="multipart/form-data" class="upload-box">
+  {% csrf_token %}
+  <input type="text" name="title" placeholder="Video title">
+  <input type="file" name="video" accept="video/*">
+  <button type="submit">Upload Video</button>
+</form>
+
+<h2>Images</h2>
+<div class="gallery-grid">
+{% for img in images %}
+  <div class="card">
+    <img src="{{ img.image.url }}">
+    <p>{{ img.title }}</p>
+    <div class="actions">
+      <a href="{% url 'edit_image' img.id %}">Edit</a>
+      <a href="{% url 'delete_image' img.id %}" onclick="return confirm('Delete image?')">Delete</a>
+    </div>
+  </div>
+{% empty %}
+<p>No images uploaded.</p>
+{% endfor %}
+</div>
+
+</div>
+</body>
+</html>

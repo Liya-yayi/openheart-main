@@ -1,0 +1,186 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.dashboard-title {
+  font-size: 42px;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 25px rgba(255,255,255,0.4);
+}
+
+.dashboard-subtitle {
+  opacity: 0.85;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+/* ===== STATS GRID ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin-bottom: 60px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(16px);
+  border-radius: 22px;
+  padding: 28px 24px;
+  box-shadow: 0 0 30px rgba(255,255,255,0.25);
+  transition: 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-10px) scale(1.04);
+  box-shadow: 0 0 50px rgba(255,255,255,0.5);
+}
+
+.stat-icon {
+  font-size: 34px;
+  opacity: 0.9;
+}
+
+.stat-number {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 10px 0 4px;
+}
+
+.stat-label {
+  letter-spacing: 2px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* ===== QUICK ACTIONS ===== */
+.quick-section {
+  margin-top: 30px;
+}
+
+.quick-title {
+  font-size: 26px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.quick-card {
+  background: rgba(255,255,255,0.12);
+  border-radius: 22px;
+  padding: 30px 24px;
+  text-align: center;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 0 28px rgba(255,255,255,0.25);
+  transition: 0.4s ease;
+  text-decoration: none;
+  color: white;
+}
+
+.quick-card i {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.quick-card h3 {
+  margin: 10px 0 6px;
+  letter-spacing: 2px;
+}
+
+.quick-card p {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.quick-card:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 0 45px rgba(255,255,255,0.6);
+  background: white;
+  color: #770202;
+}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<h1 class="dashboard-title">Admin Dashboard</h1>
+<p class="dashboard-subtitle">
+  Control panel for managing users, organizers, events and gallery.
+</p>
+
+<!-- ===== STATS ===== -->
+<!-- <div class="stats-grid">
+
+  <div class="stat-card">
+    <div class="stat-icon">👤</div>
+    <div class="stat-number">{{ users_count }}</div>
+    <div class="stat-label">TOTAL USERS</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">🎤</div>
+    <div class="stat-number">{{ organizers_count }}</div>
+    <div class="stat-label">ORGANIZERS</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">📅</div>
+    <div class="stat-number">{{ events_count }}</div>
+    <div class="stat-label">EVENTS</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">🖼</div>
+    <div class="stat-number">{{ media_count }}</div>
+    <div class="stat-label">MEDIA FILES</div>
+  </div>
+
+</div> -->
+
+<!-- ===== QUICK ACTIONS ===== -->
+<div class="quick-section">
+  <div class="quick-title">Quick Actions</div>
+
+  <div class="quick-grid">
+
+    <a href="{% url 'manage_users' %}" class="quick-card">
+      <i class="fa-solid fa-users"></i>
+      <h3>Manage Users</h3>
+      <p>View, edit or remove users</p>
+    </a>
+
+    <a href="{% url 'manage_organizers' %}" class="quick-card">
+      <i class="fa-solid fa-user-tie"></i>
+      <h3>Manage Organizers</h3>
+      <p>Control organizer accounts</p>
+    </a>
+
+    <a href="{% url 'manage_events' %}" class="quick-card">
+      <i class="fa-solid fa-calendar-days"></i>
+      <h3>Manage Events</h3>
+      <p>Edit or remove events</p>
+    </a>
+
+    <a href="{% url 'manage_media' %}" class="quick-card">
+      <i class="fa-solid fa-photo-film"></i>
+      <h3>Manage Gallery</h3>
+      <p>Images & videos control</p>
+    </a>
+
+  </div>
+</div>
+
+{% endblock %}

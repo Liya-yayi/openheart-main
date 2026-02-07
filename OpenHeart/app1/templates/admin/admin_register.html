@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Register | OpenHeart</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #770202, #2b0000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+/* floating glow */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08), transparent 40%);
+    pointer-events: none;
+}
+
+/* card */
+.register-box {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 35px;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.4);
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(15px);}
+    to {opacity:1; transform:translateY(0);}
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* inputs */
+input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+input:focus {
+    box-shadow: 0 0 0 2px #ff4b4b;
+}
+
+/* button */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ff3c3c, #b30000);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255,0,0,0.4);
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #ffd2d2;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="register-box">
+    <div class="brand">OPENHEART • ADMIN</div>
+    <h2>Admin Registration</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input name="name" placeholder="Name" required>
+        <input name="email" placeholder="Email" required>
+        <input name="phone" placeholder="Phone" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+</body>
+</html>

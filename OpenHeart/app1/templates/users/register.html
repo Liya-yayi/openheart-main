@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Registration | OpenHeart</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #770202, #2b0000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08), transparent 40%);
+  pointer-events: none;
+}
+
+.register-container {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+  border-radius: 24px;
+  padding: 35px 30px 40px;
+  box-shadow: 0 0 50px rgba(255,255,255,0.25);
+}
+
+.register-title {
+  text-align: center;
+  font-size: 32px;
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+  text-shadow: 0 0 25px rgba(255,255,255,0.6);
+}
+
+label {
+  font-size: 13px;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+
+input {
+  width: 100%;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin: 8px 0 18px;
+  color: white;
+  font-size: 14px;
+}
+
+input::placeholder { color: rgba(255,255,255,0.7); }
+
+input:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 14px rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.22);
+}
+
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+  border-radius: 18px;
+  border: none;
+  background: white;
+  color: #770202;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.login-text {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+
+.login-text a {
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="register-container">
+
+  <div class="register-title">Create Account</div>
+
+  <form method="POST" id="registerForm">
+    {% csrf_token %}
+
+    <label>Name</label>
+    <input type="text" name="name" placeholder="Enter your full name">
+
+    <label>Email</label>
+    <input type="email" name="email" placeholder="Enter your email">
+
+    <label>Password</label>
+    <input type="password" name="password" placeholder="Create a password">
+
+    <label>Phone</label>
+    <input type="text" name="phone" placeholder="Enter your phone number">
+
+    <button type="submit">Register</button>
+  </form>
+
+  <p class="login-text">
+    Already have an account?
+    <a href="{% url 'user_login' %}">Login here</a>
+  </p>
+
+</div>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", function(e) {
+
+  const name = document.querySelector("input[name='name']").value.trim();
+  const email = document.querySelector("input[name='email']").value.trim();
+  const password = document.querySelector("input[name='password']").value;
+  const phone = document.querySelector("input[name='phone']").value.trim();
+
+  if (name.length < 3) {
+    alert("Name must be at least 3 characters long");
+    e.preventDefault();
+    return;
+  }
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    alert("Please enter a valid email address");
+    e.preventDefault();
+    return;
+  }
+
+  if (password.length < 6) {
+    alert("Password must be at least 6 characters long");
+    e.preventDefault();
+    return;
+  }
+
+  const phonePattern = /^[0-9]{10}$/;
+  if (!phonePattern.test(phone)) {
+    alert("Phone number must be exactly 10 digits");
+    e.preventDefault();
+    return;
+  }
+
+});
+</script>
+
+</body>
+</html>

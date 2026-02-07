@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Register | OpenHeart{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* main wrapper */
+.register-wrapper {
+  max-width: 1200px;
+  margin: 30px auto 80px;
+  padding: 20px;
+}
+
+/* two column layout */
+.register-box {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 40px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px);
+  border-radius: 26px;
+  padding: 40px;
+  box-shadow: 0 0 50px rgba(255,255,255,0.25);
+}
+
+/* LEFT PANEL — EVENT DETAILS */
+.event-panel {
+  background: linear-gradient(160deg, rgba(255,255,255,0.18), rgba(255,255,255,0.03));
+  border-radius: 22px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.event-panel h2 {
+  margin-top: 0;
+  font-size: 34px;
+  letter-spacing: 2px;
+  color: #ffdede;
+  text-shadow: 0 0 20px rgba(255,255,255,0.4);
+}
+
+.event-meta p {
+  font-size: 16px;
+  line-height: 1.8;
+  margin: 10px 0;
+}
+
+.event-meta strong {
+  color: #ffffff;
+}
+
+.event-note {
+  margin-top: 25px;
+  padding: 16px;
+  border-left: 4px solid white;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* RIGHT PANEL — FORM */
+.form-panel h3 {
+  margin-top: 0;
+  font-size: 26px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.member-card {
+  border-left: 4px solid white;
+  padding: 22px;
+  border-radius: 16px;
+  margin-bottom: 22px;
+  background: rgba(255,255,255,0.10);
+}
+
+.member-card legend {
+  padding: 0 8px;
+  font-weight: 600;
+}
+
+.member-card input {
+  width: 100%;
+  padding: 11px;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.member-card input:focus {
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+}
+
+/* submit */
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: white;
+  color: #770202;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px white;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .register-box {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="register-wrapper">
+
+  <div class="register-box">
+
+    <!-- LEFT : EVENT DETAILS -->
+    <div class="event-panel">
+      <div>
+        <h2>{{ event.title }}</h2>
+
+        <div class="event-meta">
+          <p><strong>Type:</strong> {{ event.get_event_type_display }}</p>
+          <p><strong>Date:</strong> {{ event.event_date }}</p>
+          <p><strong>Venue:</strong> {{ event.venue }}</p>
+          <p><strong>Category:</strong> {{ event.get_category_display }}</p>
+        </div>
+
+        <div class="event-note">
+          You are registering for this program. Please make sure all details entered are correct before submitting the form.
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT : FORM -->
+    <div class="form-panel">
+
+      <h3>Registration Form</h3>
+
+      <form method="POST" action="{% url 'register_program_submit' event.id %}">
+        {% csrf_token %}
+
+        {% if event.event_type == 'group' %}
+          {% for i in member_range %}
+            <fieldset class="member-card">
+              <legend>Member {{ forloop.counter }}</legend>
+
+              <input type="text" name="member_name[]" placeholder="Full Name" required>
+              <input type="email" name="member_email[]" placeholder="Email Address" required>
+              <input type="text" name="member_phone[]" placeholder="Phone Number" required>
+              <input type="text" name="member_college_id[]" placeholder="College ID" required>
+              <input type="text" name="member_department[]" placeholder="Department" required>
+              <input type="number" name="member_year[]" placeholder="Year (1-6)" min="1" max="6" required>
+            </fieldset>
+          {% endfor %}
+        {% endif %}
+
+        <button type="submit" class="submit-btn">Confirm Registration</button>
+      </form>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
