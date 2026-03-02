@@ -108,10 +108,10 @@
 }
 
 /* buttons */
-.edit { background: #2196f3; color: white; }
-.delete { background: #e53935; color: white; }
-.image { background: #8e24aa; color: white; }
-.result { background: #fb8c00; color: white; }
+.edit { background: #ffffff; color: #770202; }
+.delete { background: white; color: #770202; }
+.image { background: white; color: #770202; }
+.result { background: white; color: #770202; }
 
 .actions a:hover {
   transform: scale(1.08);
@@ -232,9 +232,9 @@
     <div style="display:inline-block; text-align:center;">
       <img src="{{ img.image.url }}"><br>
 
-      <a href="{% url 'edit_event_image' img.id %}">✏ Edit</a> |
+      <a href="{% url 'edit_event_image' img.id %}"> Edit</a> |
       <a href="{% url 'delete_event_image' img.id %}"
-         onclick="return confirm('Delete this image?')">🗑 Delete</a>
+         onclick="return confirm('Delete this image?')"> Delete</a>
     </div>
   {% endfor %}
 </div>
