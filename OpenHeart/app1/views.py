@@ -522,10 +522,7 @@ def add_media(request):
                 image=request.FILES['image']
             )
 
-        if 'video' in request.FILES:
-            GalleryVideo.objects.create(
-                video=request.FILES['video']
-            )
+        
 
         return redirect('view_media')
 
@@ -533,11 +530,9 @@ def add_media(request):
 
 def view_media(request):
     images = GalleryImage.objects.all().order_by('-uploaded_at')
-    videos = GalleryVideo.objects.all().order_by('-uploaded_at')
 
     return render(request, 'organizers/view_media.html', {
         'images': images,
-        'videos': videos
     })
     
 def edit_image(request, image_id):
@@ -551,25 +546,13 @@ def edit_image(request, image_id):
 
     return render(request, 'organizers/edit_image.html', {'image': image})
 
-def edit_video(request, video_id):
-    video = get_object_or_404(GalleryVideo, id=video_id)
 
-    if request.method == "POST":
-        if 'video' in request.FILES:
-            video.video = request.FILES['video']
-            video.save()
-        return redirect('view_media')
-
-    return render(request, 'organizers/edit_video.html', {'video': video})
 def delete_image(request, image_id):
     image = get_object_or_404(GalleryImage, id=image_id)
     image.delete()
     return redirect('view_media')
 
-def delete_video(request, video_id):
-    video = get_object_or_404(GalleryVideo, id=video_id)
-    video.delete()
-    return redirect('view_media')
+
 
 
 # -----------------------------
@@ -583,18 +566,18 @@ def admin_login(request):
         password = request.POST['password']
 
         try:
-            admin = Admin.objects.get(email=email, password=password)
+            admin = mainadmin.objects.get(email=email, password=password)
             request.session['admin_id'] = admin.id
             request.session['admin_name'] = admin.name
             return redirect('admin_dashboard')
-        except Admin.DoesNotExist:
+        except mainadmin.DoesNotExist:
             return render(request, 'admin/admin_login.html', {'error': 'Invalid credentials'})
 
     return render(request, 'admin/admin_login.html')
 
 def admin_register(request):
     if request.method == "POST":
-        Admin.objects.create(
+        mainadmin.objects.create(
             name=request.POST['name'],
             email=request.POST['email'],
             password=request.POST['password'],
@@ -756,10 +739,9 @@ def admin_delete_event(request, id):
 @admin_required
 def manage_media(request):
     images = GalleryImage.objects.all()
-    videos = GalleryVideo.objects.all()
     return render(request, 'admin/manage_media.html', {
         'images': images,
-        'videos': videos
+        
     })
 
 
@@ -769,8 +751,7 @@ def admin_add_media(request):
         if 'image' in request.FILES:
             GalleryImage.objects.create(image=request.FILES['image'])
 
-        if 'video' in request.FILES:
-            GalleryVideo.objects.create(video=request.FILES['video'])
+        
 
         return redirect('manage_media')
 
@@ -782,10 +763,7 @@ def admin_delete_image(request, id):
     GalleryImage.objects.filter(id=id).delete()
     return redirect('manage_media')
 
-@admin_required
-def admin_delete_video(request, id):
-    GalleryVideo.objects.filter(id=id).delete()
-    return redirect('manage_media')
+
 @admin_required
 def admin_edit_image(request, id):
     image = get_object_or_404(GalleryImage, id=id)
@@ -799,19 +777,7 @@ def admin_edit_image(request, id):
     return render(request, 'admin/edit_image.html', {
         'image': image
     })
-@admin_required
-def admin_edit_video(request, id):
-    video = get_object_or_404(GalleryVideo, id=id)
 
-    if request.method == "POST":
-        if 'video' in request.FILES:
-            video.video = request.FILES['video']
-            video.save()
-        return redirect('manage_media')
-
-    return render(request, 'admin/edit_video.html', {
-        'video': video
-    })
 
 
 @admin_required

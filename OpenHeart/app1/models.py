@@ -84,7 +84,33 @@ class ProgramRegistration(models.Model):
 
     def __str__(self):
         return f"{self.user.name} → {self.event.title}"
-    
+  
+
+class GalleryImage(models.Model):
+    image = models.ImageField(upload_to='gallery/images/')
+    title = models.CharField(max_length=200, blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title or "Gallery Image"
+class GalleryVideo(models.Model):
+    video = models.FileField(upload_to='gallery/videos/')
+    title = models.CharField(max_length=200, blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title or "Gallery Video"
+
+class mainadmin(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=100)   # simple password storage
+    phone = models.CharField(max_length=15)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name  
     
 class GroupMember(models.Model):
     registration = models.ForeignKey(
@@ -104,29 +130,3 @@ class GroupMember(models.Model):
         return f"{self.name} - {self.department} ({self.year} year)"
 
 
-class GalleryImage(models.Model):
-    image = models.ImageField(upload_to='gallery/images/')
-    title = models.CharField(max_length=200, blank=True, null=True)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title or "Gallery Image"
-class GalleryVideo(models.Model):
-    video = models.FileField(upload_to='gallery/videos/')
-    title = models.CharField(max_length=200, blank=True, null=True)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title or "Gallery Video"
-
-
-class Admin(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=100)   # simple password storage
-    phone = models.CharField(max_length=15)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name

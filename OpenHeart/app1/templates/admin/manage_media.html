@@ -171,32 +171,5 @@
   {% endif %}
 
 
-  <!-- VIDEOS -->
-  <div class="section-title" style="margin-top:55px;">Videos</div>
-
-  {% if videos %}
-  <div class="media-grid">
-    {% for v in videos %}
-    <div class="media-card">
-      <video controls>
-        <source src="{{ v.video.url }}">
-      </video>
-
-      <div class="media-actions">
-        <a href="{% url 'admin_edit_video' v.id %}" class="edit-btn">Edit</a>
-        <a href="{% url 'admin_delete_video' v.id %}"
-           class="delete-btn"
-           onclick="return confirm('Delete this video?')">
-           Delete
-        </a>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  {% else %}
-    <div class="empty-box">No videos uploaded.</div>
-  {% endif %}
-
-</div>
-
+  
 {% endblock %}
