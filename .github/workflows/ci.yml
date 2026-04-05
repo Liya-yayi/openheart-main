@@ -41,7 +41,11 @@ jobs:
         done
 
     - name: Run Migrations
-      run: python manage.py migrate
+      run: |
+        cd OpenHeart
+        python manage.py migrate
 
     - name: Run Tests
-      run: python manage.py test
+      run: |
+        cd OpenHeart
+        python manage.py test
