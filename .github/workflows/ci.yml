@@ -1,4 +1,4 @@
-name: Django CI (MySQL)
+name: Django CI 9AM Testing
 
 on:
   push:
