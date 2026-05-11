@@ -130,7 +130,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'OpenHeart',
         'USER': 'root',      # or 'root'
-        'PASSWORD': 'yayi@123liyafathima',
+        'PASSWORD': 'your password',
         'HOST': 'localhost',
         'PORT': '3306',
         
