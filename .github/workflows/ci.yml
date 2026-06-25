@@ -1,51 +1,59 @@
-name: Django CI 9AM Testing
+name: Django CI(MySql)
+
 
 on:
   push:
   pull_request:
-
+  
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubundu-latest
 
     services:
       mysql:
         image: mysql:8.0
+
         env:
-          MYSQL_DATABASE: test_db
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test_db 
+          MYSQL_ROOT_PASSWORD: root 
+
+
         ports:
-          - 3306:3306
+            - 3306:3306 
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with: 
+          python-version: 3.12 
 
-    - name: Set Up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.12
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install mysqlclient
 
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install mysqlclient
+      - name: Waits for mysqlclient
+        run: |
+          sudo apt-get install -y mysql-client
+          until mysql -h 127.0.0.1 -u root -proot -e "SELECT 1";do
+            echo "Waiting for MYSQL"
+            sleep 5
+          done
 
-    - name: Wait for MySQL
-      run: |
-        sudo apt-get install -y mysql-client
-        until mysql -h localhost -u root -pyayi@123liyafathima -e "SELECT 1"; do
-          echo "Waiting for MySQL..."
-          sleep 5
-        done
+      - name: Run Migrations
+        run: |
+          cd OpenHeart
+          python manage.py migrate
 
-    - name: Run Migrations
-      run: |
-        cd OpenHeart
-        python manage.py migrate
+      - name: Run Tests
 
-    - name: Run Tests
-      run: |
-        cd OpenHeart
-        python manage.py test
+        run: |
+         cd OpenHeart
+         py manage.py test
+
+
+
+          
