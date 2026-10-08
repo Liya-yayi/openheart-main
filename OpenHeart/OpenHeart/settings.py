@@ -124,7 +124,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'OpenHeart',
         'USER': 'root',      # or 'root'
-        'PASSWORD': 'your password',
+        'PASSWORD': 'yayi@123liyafathima',
         'HOST': 'localhost',
         'PORT': '3306',
         
